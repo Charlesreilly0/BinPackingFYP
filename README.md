@@ -1,36 +1,61 @@
-# Project Name
+# Adversarial Search Techniques for Approximating the One-Dimensional Bin Packing Problem
 
-This is the code for MSc project title: "Adversial Search Techniques For Approximating The One-dimensional bin packing problem.
+This repository contains the code for the MSc project titled: "Adversarial Search Techniques for Approximating the One-Dimensional Bin Packing Problem."
 
 ## Installation
-For easy testing:
 
-Prerequisite: Install cmake, python3 and G++
+### Prerequisites
 
-A.1) Download the repository and open the parent directory.
+Make sure you have the following installed on your system:
 
-A.2) Run the following the commands.
+- CMake
+- Python 3
+- G++
 
-    - cd build
-    
-    - cmake ..
-    
-    - cmake --build .
-    
-    - ./BinPackingGame <Bin Capacity> <Best Known Solution> <List of Items (Comma-Seperated)> <Name of Algorithm> <Name of Data Structure> <Y/N>
-    
-A.3) You can simply use the juypter notebook (../tests/test.ipynb) to test the application on all the dataset.
+### Easy Testing
 
-For full testing:
-B.1) Repeat step (A.1) and (A.2)
+Follow these steps for easy testing of the project:
 
-B.2) Run chmod +x ./build/BinPackingGame
+1. **Download the Repository**: Clone or download the repository and navigate to the parent directory.
 
-B.3) Run Python3 app.py
+2. **Build the Project**: Run the following commands:
 
-B.4) Define the content of the visualization.py for plotting data.     \\ Examples have been provided in example.ipynb
-B.5) Define the contetn of the statistcal_analysis.py for stats.       \\
+    ```bash
+    cd build
+    cmake ..
+    cmake --build .
+    ```
 
+3. **Run the Application**: Execute the following command to run the application:
 
-B.6) Open in localhost browser once server is running.
+    ```bash
+    ./BinPackingGame <Bin Capacity> <Best Known Solution> <List of Items (Comma-Separated)> <Name of Algorithm> <Name of Data Structure> <Y/N>
+    ```
 
+4. **Test with Jupyter Notebook**: You can also test the application using the provided Jupyter notebook:
+
+    ```bash
+    jupyter notebook ../tests/test.ipynb
+    ```
+
+### Full Testing
+
+For a complete testing experience, follow these steps:
+
+1. **Build the Project**: Repeat steps 1 and 2 from the Easy Testing section.
+
+2. **Make the Application Executable**: Run the following command:
+
+    ```bash
+    chmod +x ./build/BinPackingGame
+    ```
+
+3. **Run the Application with Python**: Start the application by running:
+
+    ```bash
+    python3 app.py
+    ```
+
+4. **Configure Visualization**: Define the content of `visualization.py` for plotting data. Examples are provided in `example.ipynb`.
+
+5. **Configure Statistical Analysis**: Define the content of `statistical_analysis.py` for statistical analysis.
