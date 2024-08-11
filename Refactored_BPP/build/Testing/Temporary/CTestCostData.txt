@@ -1,0 +1,3 @@
+runTests 0 0
+---
+runTests

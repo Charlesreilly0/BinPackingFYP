@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Algorithm Runner</title>
+    <link rel="stylesheet" href="{{ url_for('send_static', path='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Algorithm Runner</h1>
+        <form id="algorithmForm">
+            <div class="form-group">
+                <label>Select Algorithm Type(s):</label>
+                <div id="algorithmList" class="checkbox-grid">
+                    <!-- Algorithms will be loaded here dynamically -->
+                </div>
+                <button type="button" onclick="showAddAlgorithmForm()">Add Algorithm</button>
+                <button type="button" onclick="showRemoveAlgorithmForm()">Remove Algorithm</button>
+            </div>
+
+            <div class="form-group">
+                <label for="dataInputMethod">Data Input Method:</label>
+                <select id="dataInputMethod" name="dataInputMethod" required onchange="toggleDataInputFields()">
+                    <option value="" disabled selected>Select data input method</option>
+                    <option value="database">Database Connection</option>
+                    <option value="csv">CSV File Upload</option>
+                    <option value="raw">Raw Input Data</option>
+                </select>
+            </div>
+
+            <div id="databaseFields" class="form-group data-fields">
+                <label for="databaseConnection">Database Connection:</label>
+                <input type="text" id="databaseConnection" name="databaseConnection" placeholder="Enter database connection string">
+            </div>
+
+            <div id="csvFields" class="form-group data-fields">
+                <label for="csvFile">Upload CSV File:</label>
+                <input type="file" id="csvFile" name="csvFile" accept=".csv">
+            </div>
+
+            <div id="rawFields" class="form-group data-fields">
+                <label for="itemSizes">Item Sizes (comma-separated):</label>
+                <input type="text" id="itemSizes" name="itemSizes" placeholder="e.g., 10, 20, 30">
+
+                <label for="binCapacity">Bin Capacity:</label>
+                <input type="number" id="binCapacity" name="binCapacity" placeholder="e.g., 50">
+
+                <label for="bestKnownSolution">Best Known Solution:</label>
+                <input type="number" id="bestKnownSolution" name="bestKnownSolution" value="-1">
+
+                <label for="numberOfBins">Number of Bins:</label>
+                <input type="number" id="numberOfBins" name="numberOfBins" placeholder="e.g., 10">
+
+                <label for="toleranceLevel">Tolerance Level:</label>
+                <input type="number" step="0.01" id="toleranceLevel" name="toleranceLevel" placeholder="e.g., 0.05">
+            </div>
+
+            <div class="form-group">
+                <label for="visualizationScript">Upload Visualisation Script:</label>
+                <input type="file" id="visualizationScript" name="visualizationScript" accept=".py">
+            </div>
+
+            <div class="form-group">
+                <label for="statisticalAnalysisScript">Upload Statistical Analysis Script:</label>
+                <input type="file" id="statisticalAnalysisScript" name="statisticalAnalysisScript" accept=".py">
+            </div>
+
+            <button type="button" onclick="submitForm()">Submit</button>
+        </form>
+        <div id="result">
+            <h2>Result:</h2>
+            <img id="plot" src="" alt="Plot will appear here">
+        </div>
+    </div>
+
+    <!-- Add Algorithm Modal -->
+    <div id="addAlgorithmModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddAlgorithmForm()">&times;</span>
+            <h2>Add New Algorithm</h2>
+            <form id="addAlgorithmForm">
+                <div class="form-group">
+                    <label for="newAlgorithmName">Algorithm Name:</label>
+                    <input type="text" id="newAlgorithmName" name="newAlgorithmName" required>
+                </div>
+                <div class="form-group">
+                    <label for="newAlgorithmFile">C++ File Name:</label>
+                    <input type="text" id="newAlgorithmFile" name="newAlgorithmFile" required>
+                </div>
+                <div class="form-group">
+                    <a href="path/to/documentation.md" target="_blank">Documentation</a>
+                </div>
+                <button type="button" onclick="addAlgorithm()">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Remove Algorithm Modal -->
+    <div id="removeAlgorithmModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeRemoveAlgorithmForm()">&times;</span>
+            <h2>Remove Algorithm</h2>
+            <form id="removeAlgorithmForm">
+                <div class="form-group">
+                    <label for="removeAlgorithmName">Select Algorithm to Remove:</label>
+                    <select id="removeAlgorithmName" name="removeAlgorithmName" required>
+                        <!-- Options will be loaded dynamically -->
+                    </select>
+                </div>
+                <button type="button" onclick="removeAlgorithm()">Remove</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAlgorithms();
+        });
+
+        function loadAlgorithms() {
+            fetch('/get_algorithms')
+                .then(response => response.json())
+                .then(data => {
+                    const algorithmList = document.getElementById('algorithmList');
+                    const removeAlgorithmSelect = document.getElementById('removeAlgorithmName');
+                    algorithmList.innerHTML = '';
+                    removeAlgorithmSelect.innerHTML = '';
+                    data.algorithms.forEach(algorithm => {
+                        const label = document.createElement('label');
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.name = 'algorithmType';
+                        checkbox.value = algorithm.name;
+                        label.appendChild(checkbox);
+                        label.appendChild(document.createTextNode(' ' + algorithm.name));
+                        algorithmList.appendChild(label);
+
+                        const option = document.createElement('option');
+                        option.value = algorithm.name;
+                        option.textContent = algorithm.name;
+                        removeAlgorithmSelect.appendChild(option);
+                    });
+                });
+        }
+
+        function showAddAlgorithmForm() {
+            document.getElementById('addAlgorithmModal').style.display = 'block';
+        }
+
+        function closeAddAlgorithmForm() {
+            document.getElementById('addAlgorithmModal').style.display = 'none';
+        }
+
+        function addAlgorithm() {
+            const newAlgorithmName = document.getElementById('newAlgorithmName').value;
+            const newAlgorithmFile = document.getElementById('newAlgorithmFile').value;
+            if (newAlgorithmName && newAlgorithmFile) {
+                fetch('/add_algorithm', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: newAlgorithmName, file: newAlgorithmFile })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        loadAlgorithms();
+                        closeAddAlgorithmForm();
+                    } else {
+                        alert('Error adding algorithm');
+                    }
+                });
+            }
+        }
+
+        function showRemoveAlgorithmForm() {
+            document.getElementById('removeAlgorithmModal').style.display = 'block';
+        }
+
+        function closeRemoveAlgorithmForm() {
+            document.getElementById('removeAlgorithmModal').style.display = 'none';
+        }
+
+        function removeAlgorithm() {
+            const removeAlgorithmName = document.getElementById('removeAlgorithmName').value;
+            if (removeAlgorithmName) {
+                fetch('/remove_algorithm', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: removeAlgorithmName })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        loadAlgorithms();
+                        closeRemoveAlgorithmForm();
+                    } else {
+                        alert('Error removing algorithm');
+                    }
+                });
+            }
+        }
+
+        function toggleDataInputFields() {
+            const method = document.getElementById('dataInputMethod').value;
+            document.querySelectorAll('.data-fields').forEach(field => field.style.display = 'none');
+            if (method === 'database') {
+                document.getElementById('databaseFields').style.display = 'block';
+            } else if (method === 'csv') {
+                document.getElementById('csvFields').style.display = 'block';
+            } else if (method === 'raw') {
+                document.getElementById('rawFields').style.display = 'block';
+            }
+        }
+
+        function submitForm() {
+            const formData = new FormData(document.getElementById('algorithmForm'));
+            fetch('/submit', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('plot').src = data.plot_url + '?timestamp=' + new Date().getTime();
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

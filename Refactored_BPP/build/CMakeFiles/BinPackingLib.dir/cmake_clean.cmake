@@ -1,0 +1,43 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/BinPackingLib.dir/src/AVLHeuristics.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/AVLHeuristics.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/AVLTree.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/AVLTree.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/Bin.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/Bin.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameBF.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameBF.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameBFD.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameBFD.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameFF.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameFF.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameFFD.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameFFD.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameHybrid.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameHybrid.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameInit.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameInit.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameMTRP.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameMTRP.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameNF.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameNF.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameNFD.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameNFD.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGamePrint.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGamePrint.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameWF.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameWF.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameWFD.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/BinPackingGameWFD.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/MTP.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/MTP.cpp.o.d"
+  "CMakeFiles/BinPackingLib.dir/src/main.cpp.o"
+  "CMakeFiles/BinPackingLib.dir/src/main.cpp.o.d"
+  "libBinPackingLib.a"
+  "libBinPackingLib.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/BinPackingLib.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
